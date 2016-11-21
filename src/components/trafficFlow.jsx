@@ -163,7 +163,8 @@ class TrafficFlow extends React.Component {
 
     // Listen for changes to the stores
     filterStore.addChangeListener(this.filtersChanged);
-    setInterval(function() { self.beginSampleData(self);}, 5000);
+    const self = this;
+    setInterval(() => { self.beginSampleData(self); }, 5000);
   }
 
   componentWillUnmount () {
