@@ -62,6 +62,38 @@ class TrafficFlow extends React.Component {
       }
     };
 
+    this.definitions = {
+      detailedNode: {
+        volume: {
+          default: {
+            top: { header: 'Docs/min', data: 'data.volume', format: '0,0' },
+            bottom: { header: 'Error %', data: 'data.classPercents.danger', format: '0.00%' },
+            donut: {
+              data: 'data.globalClassPercents',
+              indices: [{ key: 'danger' }, { key: 'warning' }, { key: 'normal', class: 'normalDonut' }]
+            },
+            arc: {}
+          },
+          focused: {
+            top: { header: 'DPM', data: 'data.volume', format: '0,0' },
+            donut: {
+              data: 'data.classPercents'
+            }
+          },
+          entry: {
+            top: { header: 'DDLM', data: 'data.volume', format: '0,0' },
+            bottom: { header: 'Error %', data: 'data.globalClassPercents.danger', format: '0.0%' },
+            arc: {
+              top: {},
+              bottom: {},
+              data: 'metadata.something',
+              lineIndex: 'line'
+            }
+          }
+        }
+      }
+    };
+
     // Browser history support
     window.addEventListener('popstate', event => this.handlePopState(event.state));
 
@@ -115,14 +147,14 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('sample_data.json')
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (res && res.status === 200) {
-          this.traffic.clientUpdateTime = Date.now();
-          this.updateData(res.body);
-        }
-      });
+    request.get(__DATA_API__)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (res && res.status === 200) {
+            this.traffic.clientUpdateTime = Date.now();
+            this.updateData(res.body);
+          }
+        });
   }
 
   componentDidMount () {
@@ -131,6 +163,8 @@ class TrafficFlow extends React.Component {
 
     // Listen for changes to the stores
     filterStore.addChangeListener(this.filtersChanged);
+    const self = this;
+    setInterval(() => { self.beginSampleData(self); }, 5000);
   }
 
   componentWillUnmount () {
@@ -333,6 +367,7 @@ class TrafficFlow extends React.Component {
                       matchesFound={this.matchesFound}
                       match={this.state.searchTerm}
                       modes={this.state.modes}
+                      definitions={this.definitions}
             />
           </div>
           {

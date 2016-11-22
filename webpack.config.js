@@ -43,7 +43,8 @@ module.exports = {
       $: 'jquery'
     }),
     new webpack.DefinePlugin({
-      __HIDE_DATA__: !!process.env.HIDE_DATA
+      __HIDE_DATA__: !!process.env.HIDE_DATA,
+      __DATA_API__: JSON.stringify(process.env.VIZCERAL_API_URL)
     }),
     new HtmlWebpackPlugin({
       title: 'Vizceral',
