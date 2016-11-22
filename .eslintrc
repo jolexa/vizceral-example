@@ -5,6 +5,9 @@
     "node": false,
     "amd": true
   },
+  "globals" : {
+    "__DATA_API__" : true
+  },
   "parser": "babel-eslint",
   "extends": [
     "airbnb-base"

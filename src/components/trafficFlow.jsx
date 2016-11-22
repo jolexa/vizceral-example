@@ -147,7 +147,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('http://127.0.0.1:8081')
+    request.get(__DATA_API__)
         .set('Accept', 'application/json')
         .end((err, res) => {
           if (res && res.status === 200) {
