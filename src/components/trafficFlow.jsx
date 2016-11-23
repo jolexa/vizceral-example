@@ -81,7 +81,7 @@ class TrafficFlow extends React.Component {
             }
           },
           entry: {
-            top: { header: 'DDLM', data: 'data.volume', format: '0,0' },
+            top: { header: 'Parcels', data: 'data.volume', format: '0,0' },
             bottom: { header: 'Error %', data: 'data.globalClassPercents.danger', format: '0.0%' },
             arc: {
               top: {},
